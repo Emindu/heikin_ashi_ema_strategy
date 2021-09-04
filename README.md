@@ -6,7 +6,7 @@ This strategy is based on above video. The Trading idea and rules is described i
 
 In here first it find the trend on 4 hour time frame. long and short decison are biased accounting to that trend.
 
-After it hind the indecision candle on 1 hour time frame on Heikin Ashi candlesticks  
+After it find the indecision candle on 1 hour time frame on Heikin Ashi candlesticks  
 
 
 for short signal generated, when Bearish Heikin Ashi candle generated after a  indecision candle in downtrend
