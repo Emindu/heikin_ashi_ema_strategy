@@ -43,9 +43,9 @@ with open('data/dataset_usdt.csv') as f:
 
             def find_undecision_bar(df):
                 # must be positive below two
-                if(df.iloc[-2]['HA_high'] > df.iloc[-2]['HA_close'] and df.iloc[-2]['HA_low'] < df.iloc[-2]['HA_open']):
-                    high_open_diff = round((df.iloc[-2]['HA_high'] - df.iloc[-2]['HA_open'])/df.iloc[-2]['HA_high'], 3)
-                    low_close_diff = round((df.iloc[-2]['HA_close'] - df.iloc[-2]['HA_low'])/df.iloc[-2]['HA_close'], 3 )
+                if(df.iloc[-3]['HA_high'] > df.iloc[-3]['HA_close'] and df.iloc[-3]['HA_low'] < df.iloc[-3]['HA_open']):
+                    high_open_diff = round((df.iloc[-3]['HA_high'] - df.iloc[-3]['HA_open'])/df.iloc[-3]['HA_high'], 3)
+                    low_close_diff = round((df.iloc[-3]['HA_close'] - df.iloc[-3]['HA_low'])/df.iloc[-3]['HA_close'], 3 )
                     if (high_open_diff > 0.005 and low_close_diff > 0.005 ):
                         return True
                     else:
@@ -55,25 +55,25 @@ with open('data/dataset_usdt.csv') as f:
 
             def find_sell_signal(df):
                 if(find_undecision_bar(df)):
-                    # print('{} close {} low {} high {} open'.format(df.iloc[-2]['HA_close'], df.iloc[-2]['HA_low'] , df.iloc[-2]['HA_high'] ,df.iloc[-2]['HA_open']))
-                    if (df.iloc[-1]['HA_close'] > df.iloc[-1]['HA_low'] and df.iloc[-1]['HA_high'] == df.iloc[-1]['HA_open']):
+                    # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
+                    if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
 
             def find_buy_signal(df):
                 if(find_undecision_bar(df)):
-                    # print('{} close {} low {} high {} open'.format(df.iloc[-2]['HA_close'], df.iloc[-2]['HA_low'] , df.iloc[-2]['HA_high'] ,df.iloc[-2]['HA_open']))
-                    if (df.iloc[-1]['HA_close'] > df.iloc[-1]['HA_open'] and df.iloc[-1]['HA_open'] == df.iloc[-1]['HA_low']):
+                    # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
+                    if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_open'] and df.iloc[-2]['HA_open'] == df.iloc[-2]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
                         print("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
 
 
             #if 30ema > 10 ema find sell signlas
-            if (df4.iloc[-1]['30ema'] > df4.iloc[-1]['10ema']):
+            if (df4.iloc[-2]['30ema'] > df4.iloc[-2]['10ema']):
                 find_sell_signal(ha_df)
 
 
             #if 10ema > 30 ema find buy signal on 1 hour
-            if (df4.iloc[-1]['10ema'] > df4.iloc[-1]['30ema']):
+            if (df4.iloc[-2]['10ema'] > df4.iloc[-2]['30ema']):
                 find_buy_signal(ha_df)
 
 
