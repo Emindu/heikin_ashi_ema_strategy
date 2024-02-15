@@ -43,10 +43,13 @@ with open('data/dataset_usdt.csv') as f:
 
             def find_undecision_bar(df):
                 # must be positive below two
-                high_open_diff = round((df.iloc[-2]['HA_high'] - df.iloc[-2]['HA_open'])/df.iloc[-2]['HA_high'], 3)
-                low_close_diff = round((df.iloc[-2]['HA_close'] - df.iloc[-2]['HA_low'])/df.iloc[-2]['HA_close'], 3 )
-                if (high_open_diff > 0.025 and low_close_diff > 0.025 ):
-                    return True
+                if(df.iloc[-2]['HA_high'] > df.iloc[-2]['HA_close'] and df.iloc[-2]['HA_low'] < df.iloc[-2]['HA_open']):
+                    high_open_diff = round((df.iloc[-2]['HA_high'] - df.iloc[-2]['HA_open'])/df.iloc[-2]['HA_high'], 3)
+                    low_close_diff = round((df.iloc[-2]['HA_close'] - df.iloc[-2]['HA_low'])/df.iloc[-2]['HA_close'], 3 )
+                    if (high_open_diff > 0.005 and low_close_diff > 0.005 ):
+                        return True
+                    else:
+                        return False
                 else:
                     return False
 
@@ -61,6 +64,7 @@ with open('data/dataset_usdt.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-2]['HA_close'], df.iloc[-2]['HA_low'] , df.iloc[-2]['HA_high'] ,df.iloc[-2]['HA_open']))
                     if (df.iloc[-1]['HA_close'] > df.iloc[-1]['HA_open'] and df.iloc[-1]['HA_open'] == df.iloc[-1]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
+                        print("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
 
 
             #if 30ema > 10 ema find sell signlas
