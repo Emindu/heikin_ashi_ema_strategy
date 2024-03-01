@@ -8,9 +8,11 @@ from datetime import datetime
 # dataframes = {}
 exchange = ccxt.binance()
 
+buy_signals = []
+sell_signals = []
 
 
-with open('dataset_btc.csv') as f:
+with open('./data/dataset_USDT.csv') as f:
     symbols = f.read().splitlines()
     del symbols[0]
     for symbol in symbols:
@@ -60,7 +62,8 @@ with open('dataset_btc.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
-                        print("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
+                        sell_signals.append("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
+                        
 
 
             def find_buy_signal(df):
@@ -68,7 +71,7 @@ with open('dataset_btc.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_open'] and df.iloc[-2]['HA_open'] == df.iloc[-2]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
-                        print("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
+                        buy_signals.append("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
 
 
             #if 30ema > 10 ema find sell signlas
@@ -87,4 +90,8 @@ with open('dataset_btc.csv') as f:
             continue
         # print(ticker)
 
+print("buy signals")
+print(*buy_signals, sep = "\n")
 
+print("sell signals")
+print(*sell_signals, sep = "\n")
