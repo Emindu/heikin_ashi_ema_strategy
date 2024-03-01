@@ -8,7 +8,9 @@ from datetime import datetime
 # dataframes = {}
 exchange = ccxt.binance()
 
-with open('data/dataset_usdt.csv') as f:
+
+
+with open('dataset_btc.csv') as f:
     symbols = f.read().splitlines()
     del symbols[0]
     for symbol in symbols:
@@ -58,6 +60,8 @@ with open('data/dataset_usdt.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
+                        print("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
+
 
             def find_buy_signal(df):
                 if(find_undecision_bar(df)):
