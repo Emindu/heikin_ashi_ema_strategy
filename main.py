@@ -98,11 +98,13 @@ current_time = datetime.datetime.now()
 # Extract hour and minutes
 hour = current_time.hour
 minutes = current_time.minute
+day = current_time.day
+month = current_time.month
 
 def saveSignals(setup, side):
-    filebase = f"./signals/{hour:02d}:{minutes:02d}.txt"
-    file.write(side + "\n")
+    filebase = f"./signals/{month:02d}-{day:02d}_{hour:02d}:{minutes:02d}.txt"
     with open(filebase, "w") as file:
+        file.write(side + "\n")
         for line in setup:
             file.write(line + "\n")
                 
