@@ -4,6 +4,8 @@ import sys
 import pandas as pd
 import pandas_ta as ta
 from datetime import datetime
+import sys
+import datetime
 
 # dataframes = {}
 exchange = ccxt.binance()
@@ -90,8 +92,24 @@ with open('./data/dataset_USDT.csv') as f:
             continue
         # print(ticker)
 
+current_time = datetime.datetime.now()
+
+
+# Extract hour and minutes
+hour = current_time.hour
+minutes = current_time.minute
+
+def saveSignals(setup, side):
+    filebase = f"./signals/{hour:02d}:{minutes:02d}.txt"
+    file.write(side + "\n")
+    with open(filebase, "w") as file:
+        for line in setup:
+            file.write(line + "\n")
+                
 print("buy signals")
 print(*buy_signals, sep = "\n")
+saveSignals(buy_signals, "buy setups")
 
 print("sell signals")
 print(*sell_signals, sep = "\n")
+saveSignals(sell_signals, "sell setups")
