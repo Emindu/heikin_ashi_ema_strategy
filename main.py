@@ -6,12 +6,13 @@ import pandas_ta as ta
 from datetime import datetime
 import sys
 import datetime
+import csv
 
 # dataframes = {}
 exchange = ccxt.binance()
 
-buy_signals = []
-sell_signals = []
+buy_setups= []
+sell_setups = []
 
 
 with open('./data/dataset_USDT.csv') as f:
@@ -46,6 +47,12 @@ with open('./data/dataset_USDT.csv') as f:
             df4['10ema'] = df4['close'].rolling(window=10).mean()
             # if 30ema > 10 ema find sell signals 1 hour
 
+            current_open_price = 0
+            try:
+                current_open_price = df.iloc[-1]['open']
+            except:
+                 print("error on opening price")
+
 
             def find_undecision_bar(df):
                 # must be positive below two
@@ -64,7 +71,13 @@ with open('./data/dataset_USDT.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
-                        sell_signals.append("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
+                        url = "https://www.binance.com/en/trade/{}".format(splitSymbol[0])
+                        print(url)
+                        try:
+                            symbol_data = [splitSymbol[0], url , current_open_price, "sell", "", ""]
+                            sell_setups.append(symbol_data)
+                        except Exception as e:
+                            print(e)
                         
 
 
@@ -73,8 +86,13 @@ with open('./data/dataset_USDT.csv') as f:
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_open'] and df.iloc[-2]['HA_open'] == df.iloc[-2]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
-                        buy_signals.append("https://www.binance.com/en/trade/{}".format(splitSymbol[0]))
-
+                        url = "https://www.binance.com/en/trade/{}".format(splitSymbol[0])
+                        print(url)
+                        try: 
+                            symbol_data = [splitSymbol[0], url , current_open_price, "buy", "", ""]
+                            buy_setups.append(symbol_data)
+                        except Exception as e:
+                             print(e)
 
             #if 30ema > 10 ema find sell signlas
             if (df4.iloc[-2]['30ema'] > df4.iloc[-2]['10ema']):
@@ -100,18 +118,14 @@ hour = current_time.hour
 minutes = current_time.minute
 day = current_time.day
 month = current_time.month
+filebase = f"./signals/{month:02d}-{day:02d}_{hour:02d}:{minutes:02d}.csv"
+    
 
-def saveSignals(setup, side):
-    filebase = f"./signals/{month:02d}-{day:02d}_{hour:02d}:{minutes:02d}.txt"
-    with open(filebase, "w") as file:
-        file.write(side + "\n")
-        for line in setup:
-            file.write(line + "\n")
-                
-print("buy signals")
-print(*buy_signals, sep = "\n")
-saveSignals(buy_signals, "buy setups")
-
-print("sell signals")
-print(*sell_signals, sep = "\n")
-saveSignals(sell_signals, "sell setups")
+header = ['ticker','url','entry_price', 'side', 'price_after_1h', 'price_after_4h']
+with open(filebase, 'w', newline='') as file:
+	writer = csv.writer(file, delimiter=',' ,quoting=csv.QUOTE_MINIMAL)
+	writer.writerow(header)
+	for i in buy_setups:
+		writer.writerow(i)          
+	for i in sell_setups:
+		writer.writerow(i)      
