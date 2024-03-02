@@ -1,5 +1,4 @@
-ccxt
-pandas
-pandas_ta
-numpy
-
+ccxt==4.2.3
+pandas-ta==0.3.14b
+pandas==1.4.0
+numpy==1.26.1
