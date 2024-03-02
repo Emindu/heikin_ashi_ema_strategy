@@ -17,4 +17,6 @@ for long signal generated, when bullish Heikin Ashi candle generated after a  in
 
 ![](data/img_1.png)
 
+## Trade Management
+<img width="417" alt="Screenshot 2024-03-02 at 10 47 34" src="https://github.com/Emindu/heikin_ashi_ema_strategy/assets/41495728/d1fe0031-abec-4921-b5d5-c88372da6197">
 
