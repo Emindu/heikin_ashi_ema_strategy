@@ -72,9 +72,10 @@ with open('./data/dataset_USDT.csv') as f:
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
                         url = "https://www.binance.com/en/trade/{}".format(splitSymbol[0])
+                        trading_view_url= "https://www.tradingview.com/chart/OfW7LbeC/?symbol=BINANCE%3A" + splitSymbol[0]
                         print(url)
                         try:
-                            symbol_data = [splitSymbol[0], url , current_open_price, "sell", "", ""]
+                            symbol_data = [splitSymbol[0], url , current_open_price, "sell", "", "  ", trading_view_url]
                             sell_setups.append(symbol_data)
                         except Exception as e:
                             print(e)
@@ -87,9 +88,11 @@ with open('./data/dataset_USDT.csv') as f:
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_open'] and df.iloc[-2]['HA_open'] == df.iloc[-2]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
                         url = "https://www.binance.com/en/trade/{}".format(splitSymbol[0])
+                        trading_view_url= "https://www.tradingview.com/chart/OfW7LbeC/?symbol=BINANCE%3A" + splitSymbol[0]
+
                         print(url)
                         try: 
-                            symbol_data = [splitSymbol[0], url , current_open_price, "buy", "", ""]
+                            symbol_data = [splitSymbol[0], url , current_open_price, "buy", "", "  ", trading_view_url]
                             buy_setups.append(symbol_data)
                         except Exception as e:
                              print(e)
@@ -121,7 +124,7 @@ month = current_time.month
 filebase = f"./signals/{month:02d}-{day:02d}_{hour:02d}:{minutes:02d}.csv"
     
 
-header = ['ticker','url','entry_price', 'side', 'price_after_1h', 'price_after_4h']
+header = ['ticker','url','entry_price', 'side', 'price_after_1h', 'price_after_4h', 'tradingview_url']
 with open(filebase, 'w', newline='') as file:
 	writer = csv.writer(file, delimiter=',' ,quoting=csv.QUOTE_MINIMAL)
 	writer.writerow(header)
