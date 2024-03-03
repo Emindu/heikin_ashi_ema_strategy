@@ -53,6 +53,21 @@ with open('./data/dataset_USDT.csv') as f:
             except:
                  print("error on opening price")
 
+            def find_green_indecision(df):
+                 if find_undecision_bar(df):
+                      if (df.iloc[-3]['HA_close'] > df.iloc[-3]['HA_open']):
+                           return True
+                      else:
+                           return False
+        
+            
+            def find_red_undecission(df):
+                 if find_undecision_bar(df):
+                      if (df.iloc[-3]['HA_close'] < df.iloc[-3]['HA_open']):
+                           return True
+                      else:
+                           return False
+        
 
             def find_undecision_bar(df):
                 # must be positive below two
@@ -67,7 +82,7 @@ with open('./data/dataset_USDT.csv') as f:
                     return False
 
             def find_sell_signal(df):
-                if(find_undecision_bar(df)):
+                if(find_green_indecision(df)):
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_low'] and df.iloc[-2]['HA_high'] == df.iloc[-2]['HA_open']):
                         print("{} sell signal bar ditected ".format(symbol)  )
@@ -83,7 +98,7 @@ with open('./data/dataset_USDT.csv') as f:
 
 
             def find_buy_signal(df):
-                if(find_undecision_bar(df)):
+                if(find_red_undecission(df)):
                     # print('{} close {} low {} high {} open'.format(df.iloc[-3]['HA_close'], df.iloc[-3]['HA_low'] , df.iloc[-3]['HA_high'] ,df.iloc[-3]['HA_open']))
                     if (df.iloc[-2]['HA_close'] > df.iloc[-2]['HA_open'] and df.iloc[-2]['HA_open'] == df.iloc[-2]['HA_low']):
                         print("{} buy signal bar ditected ".format(symbol)  )
