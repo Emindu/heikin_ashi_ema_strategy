@@ -16,7 +16,7 @@ for symbol in data_json["symbols"]:
 		symbolTicker = symbol["symbol"]
 		quoteAsset = symbol["quoteAsset"]
 		baseAsset = symbol["baseAsset"]
-		symbol_data = [symbolTicker, baseAsset , quoteAsset]
+		symbol_data = [symbolTicker, baseAsset , quoteAsset, 1]
 		symbols.append(symbol_data)
 
 
@@ -24,6 +24,6 @@ print(len(symbols))
 
 with open('dataset_' +sys.argv[1]+ '.csv', 'w', newline='') as file:
 	writer = csv.writer(file, delimiter=',' ,quoting=csv.QUOTE_MINIMAL)
-	writer.writerow(['ticker','symbol','base_symbol'])
+	writer.writerow(['ticker','symbol','base_symbol','active'])
 	for i in symbols:
 		writer.writerow(i)
